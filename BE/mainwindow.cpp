@@ -33,6 +33,7 @@ void MainWindow::removeElement()
     if(ui->Tableau->currentRow()>=0)
     {
         ui->Tableau->removeRow(ui->Tableau->currentRow());
+        ui->Tableau->setCurrentCell(ui->Tableau->rowCount()-1,0);
     }
 
     else
@@ -51,4 +52,13 @@ void MainWindow::on_AjouterElement_clicked()
 void MainWindow::on_SupprimerElement_clicked()
 {
     removeElement();
+}
+
+
+
+
+
+void MainWindow::on_Tableau_pressed(const QModelIndex &index)
+{
+    ui->Tableau->setCurrentCell(ui->Tableau->rowCount()+2,0);
 }

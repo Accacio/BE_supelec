@@ -6,6 +6,8 @@
 
 QT       += core gui
 
+#CONFIG += console
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = BE
@@ -25,10 +27,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    persistentobject.cpp \
+    persistentattribute.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    persistentobject.h \
+    persistentattribute.h
 
 FORMS += \
         mainwindow.ui

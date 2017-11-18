@@ -21,6 +21,8 @@ private slots:
 
     void on_SupprimerElement_clicked();
 
+    void on_Tableau_pressed(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
 };

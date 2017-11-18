@@ -23,7 +23,11 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Gestion Bibliothèque</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../assets/book.png</normaloff>../assets/book.png</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="gridLayoutWidget">
@@ -31,7 +35,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>441</width>
+      <width>451</width>
       <height>321</height>
      </rect>
     </property>
