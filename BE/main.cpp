@@ -33,8 +33,6 @@ int main(int argc, char *argv[])
     * annee_data=(int) 1979;
 
 
-
-
     PersistentAttribute * title = new PersistentAttribute(titre,QVariant::Type::String,titre_data);
     PersistentAttribute * author = new PersistentAttribute(auteur,QVariant::Type::String,auteur_data);
     PersistentAttribute * Isbn = new PersistentAttribute(isbn,QVariant::Type::Int,isbn_data);
