@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
-#CONFIG += console
+CONFIG += console
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -29,12 +29,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     persistentobject.cpp \
-    persistentattribute.cpp
+    persistentattribute.cpp \
+    livre.cpp
 
 HEADERS += \
         mainwindow.h \
     persistentobject.h \
-    persistentattribute.h
+    persistentattribute.h \
+    livre.h
 
 FORMS += \
         mainwindow.ui
