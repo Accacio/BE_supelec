@@ -5,4 +5,5 @@ PersistentAttribute::PersistentAttribute(QString * attribute_name, QVariant::Typ
     name = *attribute_name;
     type = attribute_type;
     data = attribute_data;
+
 }
