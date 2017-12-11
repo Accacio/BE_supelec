@@ -30,13 +30,15 @@ SOURCES += \
         mainwindow.cpp \
     persistentobject.cpp \
     persistentattribute.cpp \
-    livre.cpp
+    livre.cpp \
+    handler.cpp
 
 HEADERS += \
         mainwindow.h \
     persistentobject.h \
     persistentattribute.h \
-    livre.h
+    livre.h \
+    handler.h
 
 FORMS += \
         mainwindow.ui

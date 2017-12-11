@@ -11,15 +11,20 @@
 class Persistentobject
 {
 public:
-    Persistentobject(QString className);
+
 
     void addAttribute(PersistentAttribute *);
     PersistentAttribute getAttribute(QString name);
     int save(QSqlDatabase * db);
+    QString getTable();
+
+protected:
+    QString *newtable_structure;
+    QString *table;
+    Persistentobject(QString className);
 
 private:
     QList<PersistentAttribute *> * attributes;
-    QString *table;
     int id;
 };
 

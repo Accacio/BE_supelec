@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    myhandler= new Handler("untitled.db");
+    setWindowTitle(program_name+" - "+myhandler->db->databaseName());
 }
 
 MainWindow::~MainWindow()

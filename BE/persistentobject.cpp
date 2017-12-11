@@ -5,26 +5,34 @@ Persistentobject::Persistentobject(QString className)
 {
 table= new QString(className);
 attributes = new QList<PersistentAttribute *>();
+newtable_structure = new QString("");
 }
 
 
 
 void Persistentobject::addAttribute(PersistentAttribute * attribute)
 {
+    //TODO
+    //    if(dontexist)
+    {
     attributes->append(attribute);
+    }
+    // ecrase
+
 }
 
 
 int Persistentobject::save(QSqlDatabase *db)
 {
     QSqlQuery query(*db);
-    if(attributes->isEmpty())
+    if(attributes->isEmpty()||attributes->first()->data==nullptr)
     {
         std::cout<<"No value in line";
         return 0;
     }
-    QString newtable_name=*table;
-    QString create_table=QString("CREATE TABLE IF NOT EXISTS ")+*table+QString("(Titre text NOT NULL,Auteur text NOT NULL, ISBN integer NOT NULL unique primary key, Annee integer NOT null);");
+
+
+    QString create_table=QString("CREATE TABLE IF NOT EXISTS ")+*table+*newtable_structure+QString(";");
     if(!query.exec(create_table))
     {
         std::cout<<"Error creating table"<<std::endl;
@@ -63,10 +71,17 @@ int Persistentobject::save(QSqlDatabase *db)
 
     if(!query.exec(add_object_to_table))
     {
-        std::cout<<"Error executing query"<<std::endl;
+        std::cout<<"Error adding element to table"<<std::endl;
         qDebug()<<query.lastError();
         return 0;
     }
 
     return 1;
 }
+
+
+QString Persistentobject::getTable()
+{
+    return *table;
+}
+

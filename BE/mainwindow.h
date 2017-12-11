@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "handler.h"
 
 namespace Ui {
 class MainWindow;
@@ -25,6 +26,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    Handler * myhandler;
+    QString program_name=QString("Gestion Bibliothèque");
 };
 
 #endif // MAINWINDOW_H
