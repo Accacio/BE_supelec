@@ -1,6 +1,8 @@
 #include "persistentobject.h"
 
 
+
+
 Persistentobject::Persistentobject(QString className)
 {
 table= new QString(className);
@@ -8,24 +10,35 @@ attributes = new QList<PersistentAttribute *>();
 newtable_structure = new QString("");
 }
 
-
-
-void Persistentobject::addAttribute(PersistentAttribute * attribute)
+Persistentobject::~Persistentobject()
 {
-    //TODO
-    //    if(dontexist)
-    {
-    attributes->append(attribute);
-    }
-    // ecrase
-
+    delete table;
+    delete attributes;
+    delete newtable_structure;
 }
 
+void Persistentobject::addAttribute(int index,PersistentAttribute * attribute)
+{
+    attributes->insert(index,attribute);
+}
+
+void Persistentobject::updateAttribute(int index, PersistentAttribute * attribute)
+{
+    if(attributes->at(index)->getType()!=attribute->getType())
+    {
+        std::cout<<"Error updating attribute, attribute is of different type!"<<std::endl;
+    }
+
+    else
+    {
+        attributes->replace(index,attribute);
+    }
+}
 
 int Persistentobject::save(QSqlDatabase *db)
 {
     QSqlQuery query(*db);
-    if(attributes->isEmpty()||attributes->first()->data==nullptr)
+    if(attributes->isEmpty()||attributes->first()->getData()==nullptr)
     {
         std::cout<<"No value in line";
         return 0;
@@ -35,7 +48,7 @@ int Persistentobject::save(QSqlDatabase *db)
     QString create_table=QString("CREATE TABLE IF NOT EXISTS ")+*table+*newtable_structure+QString(";");
     if(!query.exec(create_table))
     {
-        std::cout<<"Error creating table"<<std::endl;
+        std::cout<<"Error creating table!"<<std::endl;
         qDebug()<<query.lastError();
         return 0;
     }
@@ -45,16 +58,16 @@ int Persistentobject::save(QSqlDatabase *db)
 
     for (QList<PersistentAttribute *>::iterator it=attributes->begin();it != attributes->end();++it)
     {
-        insert_struct+=(*it)->name;
+        insert_struct+=(*it)->getName();
 
-        if((*it)->type==QVariant::Type::String)
+        if((*it)->getType()==QVariant::Type::String)
         {
-            insert_data+=QString("'")+*((QString *)(*it)->data)+QString("'");
+            insert_data+=QString("'")+*((QString *)(*it)->getData())+QString("'");
         }
 
-        if((*it)->type==QVariant::Type::Int)
+        if((*it)->getType()==QVariant::Type::Int)
         {
-            insert_data+=QString::number(*((unsigned int *)(*it)->data));
+            insert_data+=QString::number(*((unsigned int *)(*it)->getData()));
         }
 
         if((it+1)!=attributes->end())
@@ -85,3 +98,7 @@ QString Persistentobject::getTable()
     return *table;
 }
 
+void Persistentobject::addFromDatabase(QSqlDatabase * db)
+{
+    std::cout<<"I just read the file, truste me.";
+}

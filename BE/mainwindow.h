@@ -17,6 +17,9 @@ public:
     ~MainWindow();
     void removeElement();
     void newElement();
+    void showTable();
+
+
 private slots:
     void on_AjouterElement_clicked();
 
@@ -24,10 +27,18 @@ private slots:
 
     void on_Tableau_pressed(const QModelIndex &index);
 
+    void on_actionSauvegarder_triggered();
+
+    void on_actionNouveau_triggered();
+
+    void on_actionOuvrir_triggered();
+
 private:
     Ui::MainWindow *ui;
-    Handler * myhandler;
+    Handler * m_handler;
     QString program_name=QString("Gestion Bibliothèque");
+    bool savedatleastonce;
+    QString fileName = QString("untitled.db") ;
 };
 
 #endif // MAINWINDOW_H

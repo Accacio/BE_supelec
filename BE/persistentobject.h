@@ -8,15 +8,29 @@
 #include <sstream>
 #include <iomanip>
 
+
+
+
+
 class Persistentobject
 {
 public:
 
+    QString getTable();
+    ~Persistentobject();
 
-    void addAttribute(PersistentAttribute *);
     PersistentAttribute getAttribute(QString name);
     int save(QSqlDatabase * db);
-    QString getTable();
+    void addAttribute(int index,PersistentAttribute *);
+    void updateAttribute(int index, PersistentAttribute * attribute);
+    void addFromDatabase(QSqlDatabase * db);
+
+
+    enum Types
+    {
+        noType=0,
+        Livre
+    };
 
 protected:
     QString *newtable_structure;

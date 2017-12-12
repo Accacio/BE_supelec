@@ -7,3 +7,18 @@ PersistentAttribute::PersistentAttribute(QString * attribute_name, QVariant::Typ
     data = attribute_data;
 
 }
+
+
+QString PersistentAttribute::getName()
+{
+    return name;
+}
+
+QVariant::Type PersistentAttribute::getType()
+{
+    return type;
+}
+void * PersistentAttribute::getData()
+{
+    return data;
+}
