@@ -19,12 +19,13 @@ public:
 
     void saveTable();
     void addObject(int index, Persistentobject *);
+    void addObject(Persistentobject * object);
     void removeObject(int index);
     void updateObject(int index, Persistentobject *);
     void readDatabase();
 
     QList<Persistentobject *> * getObjectList();
-QList<Persistentobject *> * objects;
+    QList<Persistentobject *> * objects;
 private:
 
     QSqlDatabase * db;

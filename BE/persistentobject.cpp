@@ -39,21 +39,39 @@ void Persistentobject::updateAttribute(int index, PersistentAttribute * attribut
 
 int Persistentobject::save(QSqlDatabase *db)
 {
+    std::cout<<" >>>>>>>>>> Persistentobject::save >>>>>>>>>> "<<std::endl;
+    std::cout<<" Saving object:"<<std::endl;
+    qDebug()<<print();
+
     QSqlQuery query(*db);
-    if(attributes->isEmpty()||attributes->first()->getData()==nullptr)
-    {
-        std::cout<<"No value in line";
-        return 0;
-    }
+    std::cout<<"Query created"<<std::endl;
+//    if(attributes->isEmpty())
+//    {
+//        std::cout<<"No value in line";
+//        return 0;
+//    }
 
 
-    QString create_table=QString("CREATE TABLE IF NOT EXISTS ")+*table+*newtable_structure+QString(";");
+    std::cout<<"Query created"<<std::endl;
+//    qDebug()<<*table;
+
+//    QString create_table=QString("CREATE TABLE IF NOT EXISTS ")+*table+*newtable_structure+QString(";");
+    QString create_table=QString("CREATE TABLE IF NOT EXISTS ");
+    std::cout<<"string create_table created 1/3"<<std::endl;
+
+    create_table=create_table+this->getTable();
+    std::cout<<"string create_table created 2/3"<<std::endl;
+    create_table=create_table+*newtable_structure+QString(";");
+
+    std::cout<<"string create_table created 3/3"<<std::endl;
     if(!query.exec(create_table))
     {
         std::cout<<"Error creating table!"<<std::endl;
         qDebug()<<query.lastError();
         return 0;
     }
+
+    std::cout<<"Create Table Query executed"<<std::endl;
 
     QString insert_struct=QString("(");
     QString insert_data=QString("(");
@@ -83,6 +101,7 @@ int Persistentobject::save(QSqlDatabase *db)
         return 0;
     }
 
+    std::cout<<" <<<<<<<<<< Persistentobject::save <<<<<<<<<< "<<std::endl;
     return 1;
 }
 
@@ -96,8 +115,15 @@ QString Persistentobject::getData(PersistentAttribute * attribute)
 
     if(attribute->getType()==QVariant::Type::Int)
     {
-        return QString::number(*((unsigned int *)attribute->getData()));
+        return QString::number(*((int *)attribute->getData()));
     }
+
+    if(attribute->getType()==QVariant::Type::LongLong)
+    {
+        return QString::number(*((qint64 *)attribute->getData()));
+    }
+
+
 
     return QString("");
 }
@@ -112,29 +138,28 @@ QString Persistentobject::getTable()
 
 void Persistentobject::addFromDatabase(QSqlQuery * query)
 {
-    std::cout<<"==============addFromDatabase - Base============"<<std::endl;
-    std::cout<<"==============addFromDatabase - Base============"<<std::endl;
+    std::cout<<" >>>>>>>>>> Persistentobject::addFromDatabase >>>>>>>>>> "<<std::endl;
+    std::cout<<" <<<<<<<<<< Persistentobject::addFromDatabase <<<<<<<<<< "<<std::endl;
 }
 
 
 QString Persistentobject::print()
 {
-    std::cout<<"==============print============"<<std::endl;
     QString insert_data=QString("");
 
-    for (QList<PersistentAttribute *>::iterator it=attributes->begin();it != attributes->end();++it)
+    for (QList<PersistentAttribute *>::iterator it=this->attributes->begin();it != attributes->end();++it)
     {
-        insert_data+=getData(*it);
+        insert_data+=this->getData(*it);
 
-        if((it+1)!=attributes->end())
+        if((it+1)!=this->attributes->end())
         {
 
             insert_data+=QString(" | ");
         }
     }
 
-    std::cout<<"PrintData"<<std::endl;
-    std::cout<<"==============print============"<<std::endl;
+    std::cout<<"PrintData:"<<std::endl;
+
     return insert_data;
 }
 

@@ -18,30 +18,57 @@ Handler::~Handler()
 
 void Handler::saveTable()
 {
+    std::cout<<" >>>>>>>>>> Handler::saveTable >>>>>>>>>> "<<std::endl;
     if(!db->open())
     {
         std::cout<<"Error: "<< db->databaseName().toStdString() << "not found"<<std::endl;
+        return;
     }
 
-    for (QList<Persistentobject *>::iterator it=objects->begin();it != objects->end();++it)
+    std::cout<<"Database Opened."<<std::endl;
+
+    for (int i=0;i < objects->size();++i)
     {
-        (*it)->save(db);
+        objects->at(i)->save(db);
+        std::cout<<"Object Saved"<<std::endl;
     }
+
+
+//    for (QList<Persistentobject *>::iterator it=objects->begin();it != objects->end();++it)
+//    {
+//        (*it)->save(db);
+//        std::cout<<"Object Saved"<<std::endl;
+//    }
 
     db->close();
+    std::cout<<"Database Closed."<<std::endl;
 
+    std::cout<<" <<<<<<<<<< Handler::saveTable <<<<<<<<<< "<<std::endl;
 }
 
 void Handler::addObject(int index, Persistentobject * object)
 {
-    std::cout<<"==============addObject - Handler============"<<std::endl;
+    std::cout<<" >>>>>>>>>> Handler::addObject >>>>>>>>>> "<<std::endl;
     objects->insert(index,object);
+    std::cout<<"==============print============"<<std::endl;
     qDebug()<<objects->at(index)->print();
-    std::cout<<"==============addObject - Handler============"<<std::endl;
+    std::cout<<"==============print============"<<std::endl;
+    std::cout<<" <<<<<<<<<< Handler::addObject <<<<<<<<<< "<<std::endl;
+}
+
+void Handler::addObject(Persistentobject * object)
+{
+    std::cout<<" >>>>>>>>>> Handler::addObject >>>>>>>>>> "<<std::endl;
+    objects->append(object);
+    std::cout<<"============== appended object ============"<<std::endl;
+    qDebug()<<objects->at(objects->size()-1)->print();
+    std::cout<<"============== appended object ============"<<std::endl;
+    std::cout<<" <<<<<<<<<< Handler::addObject <<<<<<<<<< "<<std::endl;
 }
 
 void Handler::updateObject(int index, Persistentobject * object)
 {
+    std::cout<<" >>>>>>>>>> Handler::updateObject >>>>>>>>>> "<<std::endl;
     if(objects->at(index)->getTable()!=object->getTable())
     {
         std::cout<<"Error updating element, element is of different type!"<<std::endl;
@@ -51,6 +78,7 @@ void Handler::updateObject(int index, Persistentobject * object)
     {
         objects->replace(index,object);
     }
+    std::cout<<" <<<<<<<<<< Handler::updateObject <<<<<<<<<< "<<std::endl;
 }
 
 void Handler::removeObject(int index)
@@ -69,8 +97,8 @@ void Handler::removeObject(int index)
 
 void Handler::readDatabase()
 {
-    std::cout<<"==============readDatabase============"<<std::endl;
-    objects->clear();
+    std::cout<<" >>>>>>>>>> Handler::readDatabase >>>>>>>>>> "<<std::endl;
+    //this->objects->clear();
     std::cout<<"Objects cleared"<<std::endl;
 
 
@@ -117,34 +145,51 @@ void Handler::readDatabase()
             std::cout<<"Error! No Type defined!"<<std::endl;
             return;
         }
+//        std::cout<<"Table of tempObj"<<std::endl;
+//        qDebug()<<tempObj->getTable();
 
         tempObj->addFromDatabase(query);
         std::cout<<"tempobj created from database"<<std::endl;
         qDebug()<<tempObj->print();
 
         std::cout<<"tempobj printed"<<std::endl;
-        objects->append(tempObj);
+        this->addObject(tempObj);
 
-        std::cout<<"tempobj added to objects"<<std::endl;
 
-        std::cout<<"Contents of the object:"<<std::endl;
-        //qDebug()<<*(QString *)objects->at(index)->getAttributes()->at(0)->getData();
-//                    addObject(index,tempObj);
-        std::cout<<"tempobj added to objects"<<std::endl;
 
-        index+=1;
-        delete tempObj;
 
-        if(!objects->isEmpty())
+        std::cout<<" !!!!!!!!! Objects after appending(outside loop)"<<std::endl;
+        for(int i=0;i<this->objects->size();i++)
         {
-
-
-            std::cout<<"Last object printed"<<std::endl;
-            std::cout<<std::endl;
+            qDebug()<<this->objects->at(i)->print();
         }
+
+
+
+        std::cout<<"tempobj added to objects"<<std::endl;
+        std::cout<<"Contents of the object:"<<std::endl;
+        qDebug()<<this->objects->at(this->objects->size()-1)->print();
+
+        /*std::cout<<"Table of tempObj in objects before delete"<<std::endl;
+        qDebug()<<objects->at(objects->size()-1)->getTable();
+*/
+  //      delete tempObj;
+  /*      std::cout<<"Table of tempObj in objects after delete"<<std::endl;
+        qDebug()<<objects->at(objects->size()-1)->getTable();*/
+        index+=1;
+
+
 
         //std::cout<< query.value(0).toString().toStdString()<<QString(" | ").toStdString() <<query.value(1).toString().toStdString() << QString(" | ").toStdString() <<query.value(2).toString().toStdString() << QString(" | ").toStdString()<<query.value(3).toString().toStdString();
 
+    }
+    std::cout<<"Table of tempObj in objects after delete (outside loop)"<<std::endl;
+    qDebug()<<objects->at(index-1)->getTable();
+
+    std::cout<<"Objects (outside loop)"<<std::endl;
+    for(int i=0;i<objects->size();i++)
+    {
+        qDebug()<<objects->at(i)->print();
     }
 
 
@@ -152,7 +197,7 @@ void Handler::readDatabase()
 
     db->close();
 
-    std::cout<<"==============readDatabase============"<<std::endl;
+    std::cout<<" <<<<<<<<<< Handler::readDatabase <<<<<<<<<< "<<std::endl;
 }
 
 
