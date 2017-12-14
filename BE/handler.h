@@ -21,6 +21,7 @@ public:
     void addObject(int index, Persistentobject *);
     void addObject(Persistentobject * object);
     void removeObject(int index);
+    void clearObjects();
     void updateObject(int index, Persistentobject *);
     void readDatabase();
 

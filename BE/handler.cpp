@@ -216,3 +216,8 @@ QList<Persistentobject *> * Handler::getObjectList()
 {
 return objects;
 }
+
+void Handler::clearObjects()
+{
+    objects->clear();
+}

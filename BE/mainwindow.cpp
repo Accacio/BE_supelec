@@ -10,35 +10,30 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowTitle(fileName+" - "+program_name);
     savedatleastonce=false;
 
+//    QString * titre= new QString("Titre");
+//    QString * titre_data= new QString("The neverending story");
+//    QString * auteur= new QString("Auteur");
+//    QString * auteur_data= new QString("Mafichael Ende");
+//    QString * isbn= new QString("ISBN");
+//    qint64 * isbn_data=new qint64;
+//    *isbn_data= (qint64) 3522128001;
+//    QString * annee= new QString("Annee");
+//    int * annee_data=new int;
+//    * annee_data=(int) 1979;
 
 
+//    PersistentAttribute * title = new PersistentAttribute(titre,QVariant::Type::String,titre_data);
+//    PersistentAttribute * author = new PersistentAttribute(auteur,QVariant::Type::String,auteur_data);
+//    PersistentAttribute * Isbn = new PersistentAttribute(isbn,QVariant::Type::LongLong,isbn_data);
+//    PersistentAttribute * year = new PersistentAttribute(annee,QVariant::Type::Int,annee_data);
+//    Persistentobject * object= new Livre();
+//    object->updateAttribute(0,title);
+//    object->updateAttribute(1,author);
+//    object->updateAttribute(2,Isbn);
+//    object->updateAttribute(3,year);
 
 
-
-    QString * titre= new QString("Titre");
-    QString * titre_data= new QString("The neverending story");
-    QString * auteur= new QString("Auteur");
-    QString * auteur_data= new QString("Mafichael Ende");
-    QString * isbn= new QString("ISBN");
-    qint64 * isbn_data=new qint64;
-    *isbn_data= (qint64) 3522128001;
-    QString * annee= new QString("Annee");
-    int * annee_data=new int;
-    * annee_data=(int) 1979;
-
-
-    PersistentAttribute * title = new PersistentAttribute(titre,QVariant::Type::String,titre_data);
-    PersistentAttribute * author = new PersistentAttribute(auteur,QVariant::Type::String,auteur_data);
-    PersistentAttribute * Isbn = new PersistentAttribute(isbn,QVariant::Type::LongLong,isbn_data);
-    PersistentAttribute * year = new PersistentAttribute(annee,QVariant::Type::Int,annee_data);
-    Persistentobject * object= new Livre();
-    object->updateAttribute(0,title);
-    object->updateAttribute(1,author);
-    object->updateAttribute(2,Isbn);
-    object->updateAttribute(3,year);
-
-
-    m_handler->readDatabase();
+//    m_handler->readDatabase();
 
 
 
@@ -46,11 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
 //    m_handler->addObject(object);
 
 
-    std::cout<<" !!!!!!!!!! Objects in List !!!!!!!!!! "<<std::endl;
-    for(int i=0;i<m_handler->getObjectList()->size();i++)
-    {
-        qDebug()<<m_handler->getObjectList()->at(i)->print();
-    }
+//    std::cout<<" !!!!!!!!!! Objects in List !!!!!!!!!! "<<std::endl;
+//    for(int i=0;i<m_handler->getObjectList()->size();i++)
+//    {
+//        qDebug()<<m_handler->getObjectList()->at(i)->print();
+//    }
 
 //    std::cout<<" !!!!!!!!!! Objectsstructure !!!!!!!!!! "<<std::endl;
 //    qDebug()<<m_handler->getObjectList()->at(0)->objectStructure->at(0);
@@ -61,10 +56,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //qDebug()<<m_handler->getObjectList()->at(0)->getAttributes()->size();
 
 
-    updateTable();
+//    updateTable();
 
 
-    m_handler->setDatabaseName("olala.db");
+//    m_handler->setDatabaseName("olala.db");
 
 
 
@@ -137,47 +132,55 @@ void MainWindow::on_Tableau_pressed(const QModelIndex &index)
 
 void MainWindow::on_actionSauvegarder_triggered()
 {
-//    if(!savedatleastonce)
-//    {
-//        //Ask File name
-//        //    fileName = // TODO
-//    }
+    if(!savedatleastonce)
+    {
+        //Ask File name
+        //    fileName = // TODO
+    }
 
 
 
-//    m_handler->setDatabaseName(fileName);
-//    m_handler->saveTable();
-//    setWindowTitle(fileName+" - "+program_name);
-//    savedatleastonce=true;
+    m_handler->setDatabaseName(fileName);
+    m_handler->saveTable();
+    setWindowTitle(fileName+" - "+program_name);
+    savedatleastonce=true;
 }
 
 void MainWindow::on_actionNouveau_triggered()
 {
 
 //    //Ask File name
-//    //    fileName = // TODO
+//    fileName = // TODO
 
 
-//    m_handler->setDatabaseName(fileName);
-//    setWindowTitle(fileName+" - "+program_name);
-//    savedatleastonce=false;
+    m_handler->setDatabaseName(fileName);
+    setWindowTitle(fileName+" - "+program_name);
+    savedatleastonce=false;
 }
 
 void MainWindow::on_actionOuvrir_triggered()
 {
 //    //Ask File name
-//    //    fileName = // TODO
-//    m_handler->setDatabaseName(fileName);
-//    std::cout<<"Database name set"<<std::endl;
-//    setWindowTitle(fileName+" - "+program_name);
-//    m_handler->readDatabase();
-//    std::cout<<"Database read"<<std::endl;
+
+
+    fileName = QFileDialog::getOpenFileName(this,QString("Ouvrir Base de Donées"),QDir::currentPath(),QString("Base de Donées (*.db)"));
+    if(fileName.isNull())
+    {
+        std::cout<<"No file selected"<<std::endl;
+        return;
+    }
+    m_handler->setDatabaseName(fileName);
+    std::cout<<"Database name set"<<std::endl;
+    setWindowTitle(fileName+" - "+program_name);
+    m_handler->clearObjects();
+    m_handler->readDatabase();
+    std::cout<<"Database read"<<std::endl;
 
 
 
-//    savedatleastonce=true;
-//    //afficher
-//    updateTable();
+    savedatleastonce=true;
+    //afficher
+    updateTable();
 
 
 
