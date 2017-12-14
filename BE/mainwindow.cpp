@@ -42,50 +42,33 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    /*std::cout<<"Size of objects"<<std::endl;
-    qDebug()<<m_handler->getObjectList()->size();
-    QString stringa=m_handler->getObjectList()->at(0)->print();
+//    m_handler->addObject(object);
+//    m_handler->addObject(object);
 
 
-    qDebug()<<stringa;
-    QString stringb=m_handler->objects->at(0)->print();
-    qDebug()<<stringb;*/
-
-
-
-    /*std::cout<<" !!!!!!!!! Objects after appending(outside loop)"<<std::endl;
-    for(int i=0;i<m_handler->getObjectList()->size();i++)
-    {
-        qDebug()<<m_handler->getObjectList()->at(i)->print();
-    }*/
-
-    m_handler->addObject(object);
-    m_handler->addObject(object);
-
-
-    std::cout<<" !!!!!!!!! Objects after appending(outside loop)"<<std::endl;
+    std::cout<<" !!!!!!!!!! Objects in List !!!!!!!!!! "<<std::endl;
     for(int i=0;i<m_handler->getObjectList()->size();i++)
     {
         qDebug()<<m_handler->getObjectList()->at(i)->print();
     }
 
+//    std::cout<<" !!!!!!!!!! Objectsstructure !!!!!!!!!! "<<std::endl;
+//    qDebug()<<m_handler->getObjectList()->at(0)->objectStructure->at(0);
+//    qDebug()<<m_handler->getObjectList()->at(0)->objectStructure->at(1);
+//    qDebug()<<m_handler->getObjectList()->at(0)->objectStructure->at(2);
+//    qDebug()<<m_handler->getObjectList()->at(0)->objectStructure->at(3);
 
-    /*std::cout<<"Size of objects"<<std::endl;
-    qDebug()<<m_handler->getObjectList()->size();
+    //qDebug()<<m_handler->getObjectList()->at(0)->getAttributes()->size();
 
-    stringa=m_handler->getObjectList()->at(0)->print();
 
-    qDebug()<<stringa;
-    qDebug()<<m_handler->getObjectList()->at(1)->print();
-    qDebug()<<m_handler->getObjectList()->at(2)->print();
+    updateTable();
 
-    qDebug()<<m_handler->getObjectList()->size();*/
 
     m_handler->setDatabaseName("olala.db");
 
 
 
-    m_handler->saveTable();
+//    m_handler->saveTable();
 
 
 
@@ -203,13 +186,17 @@ void MainWindow::on_actionOuvrir_triggered()
 }
 
 
-//void MainWindow::updateTable()
-//{
-//    ui->Tableau->clear();
-//    ui->Tableau->setRowCount(0);
-//    ui->Tableau->setColumnCount(0);
-//    std::cout<<"Table cleared"<<std::endl;
-////    std::cout<<m_handler->getObjectList()->first()->objectStructure->first().toStdString()<<std::endl;
+void MainWindow::updateTable()
+{
+    ui->Tableau->clear();
+    ui->Tableau->setRowCount(0);
+    ui->Tableau->setColumnCount(0);
+    std::cout<<"Table cleared"<<std::endl;
+
+
+
+
+//    std::cout<<m_handler->getObjectList()->first()->objectStructure->first().toStdString()<<std::endl;
 
 //    std::cout<<"objectStructure cleared"<<std::endl;
 
@@ -229,14 +216,35 @@ void MainWindow::on_actionOuvrir_triggered()
 
 //    std::cout<<"objectStructure copied"<<std::endl;
 
-//    for(int i=0;i<4;i++)
-//    {
-//        ui->Tableau->insertColumn(i);
-//    }
-//    std::cout<<"Columns inserted"<<std::endl;
+    for(int i=0;i<m_handler->getObjectList()->at(0)->objectStructure->size();i++)
+    {
+        ui->Tableau->insertColumn(i);
+    }
+    std::cout<<"Columns inserted"<<std::endl;
 
-//    //ui->Tableau->setHorizontalHeaderLabels(*m_handler->getObjectList()->at(0)->objectStructure);
-////    ui->Tableau->setVerticalHeaderLabels(*(m_handler->getObjectList()->first()->objectStructure));
-//    std::cout<<"Headers Set" <<std::endl;
+    ui->Tableau->setHorizontalHeaderLabels(*m_handler->getObjectList()->at(0)->objectStructure);
 
-//}
+    std::cout<<"Headers Set" <<std::endl;
+
+    for(int i=0;i<m_handler->getObjectList()->size();i++)
+    {
+        ui->Tableau->insertRow(i);
+
+        for(int j=0;j<m_handler->getObjectList()->at(0)->getAttributes()->size();j++)
+        {
+
+
+            QTableWidgetItem *newItem = new QTableWidgetItem(m_handler->getObjectList()->at(i)->getDataFromAttribute(m_handler->getObjectList()->at(i)->getAttributes()->at(j)));
+            ui->Tableau->setItem(i,j,newItem);
+
+        }
+
+    }
+    std::cout<<"Rows inserted"<<std::endl;
+
+
+
+
+
+
+}

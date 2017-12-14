@@ -32,6 +32,7 @@ public:
         Livre
     };
     QString getData(PersistentAttribute * );
+    QString getDataFromAttribute(PersistentAttribute * attribute);
 
 protected:
     QString *newtable_structure;

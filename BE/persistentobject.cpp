@@ -128,6 +128,27 @@ QString Persistentobject::getData(PersistentAttribute * attribute)
     return QString("");
 }
 
+QString Persistentobject::getDataFromAttribute(PersistentAttribute * attribute)
+{
+    if(attribute->getType()==QVariant::Type::String)
+    {
+        return *((QString *)attribute->getData());
+    }
+
+    if(attribute->getType()==QVariant::Type::Int)
+    {
+        return QString::number(*((int *)attribute->getData()));
+    }
+
+    if(attribute->getType()==QVariant::Type::LongLong)
+    {
+        return QString::number(*((qint64 *)attribute->getData()));
+    }
+
+
+
+    return QString("");
+}
 
 
 
