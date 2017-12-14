@@ -86,10 +86,15 @@ void MainWindow::newElement()
     {
 
         ui->Tableau->insertRow(ui->Tableau->currentRow());
+        Persistentobject * tempObj= m_handler->newObject();
+        m_handler->addObject(ui->Tableau->currentRow(),tempObj);
     }
     else
     {
         ui->Tableau->insertRow(ui->Tableau->rowCount());
+
+        Persistentobject * tempObj= m_handler->newObject();
+        m_handler->addObject(tempObj);
     }
 
 
@@ -113,7 +118,26 @@ void MainWindow::removeElement()
 
 void MainWindow::on_AjouterElement_clicked()
 {
-    newElement();
+    if(m_handler->getTypeDB()==Persistentobject::Types::noType)
+    {
+        if(!setTypeDB())
+        {
+            std::cout<<"No Type chosen"<<std::endl;
+            return;
+        }
+
+        Persistentobject * tempObj= m_handler->newObject();
+        m_handler->addObject(tempObj);
+        updateTable();
+
+    }
+    else
+    {
+        newElement();
+
+    }
+
+
 }
 
 void MainWindow::on_SupprimerElement_clicked()
@@ -153,6 +177,7 @@ void MainWindow::on_actionNouveau_triggered()
 //    fileName = // TODO
 
 
+
     m_handler->setDatabaseName(fileName);
     setWindowTitle(fileName+" - "+program_name);
     savedatleastonce=false;
@@ -169,6 +194,16 @@ void MainWindow::on_actionOuvrir_triggered()
         std::cout<<"No file selected"<<std::endl;
         return;
     }
+
+
+
+    if(!setTypeDB())
+    {
+        std::cout<<"No Type chosen"<<std::endl;
+        return;
+    }
+
+
     m_handler->setDatabaseName(fileName);
     std::cout<<"Database name set"<<std::endl;
     setWindowTitle(fileName+" - "+program_name);
@@ -176,15 +211,10 @@ void MainWindow::on_actionOuvrir_triggered()
     m_handler->readDatabase();
     std::cout<<"Database read"<<std::endl;
 
-
-
     savedatleastonce=true;
+
     //afficher
     updateTable();
-
-
-
-//    std::cout<<"End of Open================"<<std::endl<<std::endl<<std::endl<<std::endl<<std::endl<<std::endl;
 
 }
 
@@ -197,27 +227,6 @@ void MainWindow::updateTable()
     std::cout<<"Table cleared"<<std::endl;
 
 
-
-
-//    std::cout<<m_handler->getObjectList()->first()->objectStructure->first().toStdString()<<std::endl;
-
-//    std::cout<<"objectStructure cleared"<<std::endl;
-
-////    QStringList * objectStructure=new QStringList;
-//    QList<Persistentobject *> * objects=new QList<Persistentobject *>();
-////    objects=m_handler->objects;
-//    *objects=*m_handler->getObjectList();
-
-//    std::cout<<"Table of object:";
-//    qDebug()<<objects->at(0)->getAttributes()->at(0)->getName();
-//    //delete objects;
-////    =*(m_handler->getObjectList()->first()->objectStructure);
-////    objectStructure<<"Titre"<<"Auteur"<<"ISBN"<<"Année";
-////    objectStructure=m_handler->getObjectList()->at(0)->objectStructure;
-////    qDebug()<<*(QString *)m_handler->getObjectList()->at(0)->getAttributes()->at(0)->getData();
-////    qDebug()<<objectStructure->at(0);
-
-//    std::cout<<"objectStructure copied"<<std::endl;
 
     for(int i=0;i<m_handler->getObjectList()->at(0)->objectStructure->size();i++)
     {
@@ -247,7 +256,30 @@ void MainWindow::updateTable()
 
 
 
+}
+
+bool MainWindow::setTypeDB()
+{
+    QStringList items;
+    items << QString("Livre") ;
+
+
+    bool ok;
+
+    QString item=QInputDialog::getItem(this, QString("Select Type of BD"),QString("Type:"), items, 0, false, &ok);
 
 
 
+    if(!ok)
+    {
+        std::cout<<"No Type chosen"<<std::endl;
+        return false;
+    }
+
+
+
+
+
+    m_handler->setTypeDB((Persistentobject::Types )(items.indexOf(item)+1));
+    return true;
 }

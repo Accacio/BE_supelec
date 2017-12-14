@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QInputDialog>
 #include "handler.h"
 
 namespace Ui {
@@ -19,6 +20,8 @@ public:
     void removeElement();
     void newElement();
     void updateTable();
+
+    bool setTypeDB();
 
 
 private slots:

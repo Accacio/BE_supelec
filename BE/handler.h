@@ -25,8 +25,13 @@ public:
     void updateObject(int index, Persistentobject *);
     void readDatabase();
 
+    void setTypeDB(Persistentobject::Types);
+    Persistentobject::Types getTypeDB();
+
     QList<Persistentobject *> * getObjectList();
     QList<Persistentobject *> * objects;
+
+    Persistentobject * newObject();
 private:
 
     QSqlDatabase * db;

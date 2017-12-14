@@ -106,10 +106,6 @@ void Handler::readDatabase()
     db->open();
     QSqlQuery * query = new QSqlQuery(*db);
 
-    //TODO Choose typeDB Use Radio Button
-    typeDB=Persistentobject::Types::Livre;
-
-
     QString tableName;
     switch(typeDB)
     {
@@ -134,17 +130,8 @@ void Handler::readDatabase()
     int index=0;
     while(query->next())
     {
-    Persistentobject * tempObj;
-        switch(typeDB)
-        {
-        case Persistentobject::Types::Livre:
-            tempObj = new Livre();
-            break;
+    Persistentobject * tempObj = newObject();
 
-        case Persistentobject::Types::noType:
-            std::cout<<"Error! No Type defined!"<<std::endl;
-            return;
-        }
 //        std::cout<<"Table of tempObj"<<std::endl;
 //        qDebug()<<tempObj->getTable();
 
@@ -220,4 +207,32 @@ return objects;
 void Handler::clearObjects()
 {
     objects->clear();
+}
+
+void Handler::setTypeDB(Persistentobject::Types newTypeDB)
+{
+    typeDB=newTypeDB;
+}
+
+Persistentobject::Types Handler::getTypeDB()
+{
+    return typeDB;
+}
+
+
+
+Persistentobject * Handler::newObject()
+{
+    Persistentobject * tempObj;
+    switch(typeDB)
+    {
+    case Persistentobject::Types::Livre:
+        tempObj = new Livre();
+        return tempObj;
+
+    case Persistentobject::Types::noType:
+        std::cout<<"Error! No Type defined!"<<std::endl;
+    default:
+        return nullptr;
+    }
 }
