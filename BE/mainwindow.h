@@ -17,7 +17,7 @@ public:
     ~MainWindow();
     void removeElement();
     void newElement();
-    void showTable();
+    void updateTable();
 
 
 private slots:

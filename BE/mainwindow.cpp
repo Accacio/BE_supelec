@@ -102,16 +102,58 @@ void MainWindow::on_actionOuvrir_triggered()
     //Ask File name
     //    fileName = // TODO
     m_handler->setDatabaseName(fileName);
+    std::cout<<"Database name set"<<std::endl;
     setWindowTitle(fileName+" - "+program_name);
     m_handler->readDatabase();
+    std::cout<<"Database read"<<std::endl;
 
-    //afficher
-    showTable();
+
+
     savedatleastonce=true;
+    //afficher
+    updateTable();
+
+
+
+    std::cout<<"End of Open================"<<std::endl<<std::endl<<std::endl<<std::endl<<std::endl<<std::endl;
+
 }
 
 
-void MainWindow::showTable()
+void MainWindow::updateTable()
 {
+    ui->Tableau->clear();
+    ui->Tableau->setRowCount(0);
+    ui->Tableau->setColumnCount(0);
+    std::cout<<"Table cleared"<<std::endl;
+//    std::cout<<m_handler->getObjectList()->first()->objectStructure->first().toStdString()<<std::endl;
+
+    std::cout<<"objectStructure cleared"<<std::endl;
+
+//    QStringList * objectStructure=new QStringList;
+    QList<Persistentobject *> * objects=new QList<Persistentobject *>();
+//    objects=m_handler->objects;
+    *objects=*m_handler->getObjectList();
+
+    std::cout<<"Table of object:";
+    qDebug()<<objects->at(0)->getAttributes()->at(0)->getName();
+    //delete objects;
+//    =*(m_handler->getObjectList()->first()->objectStructure);
+//    objectStructure<<"Titre"<<"Auteur"<<"ISBN"<<"Année";
+//    objectStructure=m_handler->getObjectList()->at(0)->objectStructure;
+//    qDebug()<<*(QString *)m_handler->getObjectList()->at(0)->getAttributes()->at(0)->getData();
+//    qDebug()<<objectStructure->at(0);
+
+    std::cout<<"objectStructure copied"<<std::endl;
+
+    for(int i=0;i<4;i++)
+    {
+        ui->Tableau->insertColumn(i);
+    }
+    std::cout<<"Columns inserted"<<std::endl;
+
+    //ui->Tableau->setHorizontalHeaderLabels(*m_handler->getObjectList()->at(0)->objectStructure);
+//    ui->Tableau->setVerticalHeaderLabels(*(m_handler->getObjectList()->first()->objectStructure));
+    std::cout<<"Headers Set" <<std::endl;
 
 }

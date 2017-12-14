@@ -34,7 +34,10 @@ void Handler::saveTable()
 
 void Handler::addObject(int index, Persistentobject * object)
 {
+    std::cout<<"==============addObject - Handler============"<<std::endl;
     objects->insert(index,object);
+    qDebug()<<objects->at(index)->print();
+    std::cout<<"==============addObject - Handler============"<<std::endl;
 }
 
 void Handler::updateObject(int index, Persistentobject * object)
@@ -66,13 +69,14 @@ void Handler::removeObject(int index)
 
 void Handler::readDatabase()
 {
+    std::cout<<"==============readDatabase============"<<std::endl;
     objects->clear();
-
+    std::cout<<"Objects cleared"<<std::endl;
 
 
     //Lecture BD
     db->open();
-    QSqlQuery query(*db);
+    QSqlQuery * query = new QSqlQuery(*db);
 
     //TODO Choose typeDB Use Radio Button
     typeDB=Persistentobject::Types::Livre;
@@ -91,16 +95,16 @@ void Handler::readDatabase()
     }
 
 
-    QString getTable=QString("select * from ")+tableName;// Change 'Livre'
-    if(!query.exec(getTable))
+    QString getTable=QString("select * from ")+tableName;
+    if(!query->exec(getTable))
     {
         std::cout<<"Error getting table!"<<std::endl;
-        qDebug()<<query.lastError();
+        qDebug()<<query->lastError();
         return;
     }
-    QSqlRecord rec=query.record();
+
     int index=0;
-    while(query.next())
+    while(query->next())
     {
     Persistentobject * tempObj;
         switch(typeDB)
@@ -114,20 +118,41 @@ void Handler::readDatabase()
             return;
         }
 
-        tempObj->addFromDatabase(db);
-        addObject(index,tempObj);
+        tempObj->addFromDatabase(query);
+        std::cout<<"tempobj created from database"<<std::endl;
+        qDebug()<<tempObj->print();
+
+        std::cout<<"tempobj printed"<<std::endl;
+        objects->append(tempObj);
+
+        std::cout<<"tempobj added to objects"<<std::endl;
+
+        std::cout<<"Contents of the object:"<<std::endl;
+        //qDebug()<<*(QString *)objects->at(index)->getAttributes()->at(0)->getData();
+//                    addObject(index,tempObj);
+        std::cout<<"tempobj added to objects"<<std::endl;
+
         index+=1;
         delete tempObj;
+
+        if(!objects->isEmpty())
+        {
+
+
+            std::cout<<"Last object printed"<<std::endl;
+            std::cout<<std::endl;
+        }
 
         //std::cout<< query.value(0).toString().toStdString()<<QString(" | ").toStdString() <<query.value(1).toString().toStdString() << QString(" | ").toStdString() <<query.value(2).toString().toStdString() << QString(" | ").toStdString()<<query.value(3).toString().toStdString();
 
     }
 
 
-
+    delete query;
 
     db->close();
 
+    std::cout<<"==============readDatabase============"<<std::endl;
 }
 
 
@@ -140,4 +165,9 @@ void Handler::setDatabaseName(QString newDatabaseName)
 QString Handler::getDatabaseName()
 {
     return db->databaseName();
+}
+
+QList<Persistentobject *> * Handler::getObjectList()
+{
+return objects;
 }

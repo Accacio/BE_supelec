@@ -7,6 +7,9 @@ class Livre : public Persistentobject
 {
 public:
     Livre();
+
+    void addFromDatabase(QSqlQuery * );
+
 };
 
 #endif // LIVRE_H

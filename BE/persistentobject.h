@@ -4,12 +4,10 @@
 #include <QList>
 #include "persistentattribute.h"
 #include <QtSql>
+#include <QList>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
-
-
-
 
 
 class Persistentobject
@@ -17,28 +15,32 @@ class Persistentobject
 public:
 
     QString getTable();
-    ~Persistentobject();
+    virtual ~Persistentobject();
 
-    PersistentAttribute getAttribute(QString name);
+    QList<PersistentAttribute *> * getAttributes();
     int save(QSqlDatabase * db);
-    void addAttribute(int index,PersistentAttribute *);
-    void updateAttribute(int index, PersistentAttribute * attribute);
-    void addFromDatabase(QSqlDatabase * db);
+    void addAttribute(int ,PersistentAttribute *);
+    void updateAttribute(int , PersistentAttribute * );
+    virtual void addFromDatabase(QSqlQuery * );
+    QString print();
 
+    QStringList * objectStructure;
 
     enum Types
     {
         noType=0,
         Livre
     };
+    QString getData(PersistentAttribute * );
 
 protected:
     QString *newtable_structure;
     QString *table;
     Persistentobject(QString className);
+    QList<PersistentAttribute *> * attributes;
 
 private:
-    QList<PersistentAttribute *> * attributes;
+
     int id;
 };
 
