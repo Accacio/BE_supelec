@@ -102,20 +102,22 @@ void MainWindow::newElement()
 
 void MainWindow::removeElement()
 {
-
+//    qDebug()<<ui->Tableau->currentRow();
     if(ui->Tableau->currentRow()>0)
     {
+        m_handler->removeObject(ui->Tableau->currentRow());
         ui->Tableau->removeRow(ui->Tableau->currentRow());
 
-        //ui->Tableau->setCurrentCell(ui->Tableau->rowCount()-1,0);
-        m_handler->removeObject(ui->Tableau->currentRow()-1);
+        ui->Tableau->setCurrentCell(ui->Tableau->rowCount()-1,0);
+
 
 
     }
     else
     {
-        ui->Tableau->removeRow(ui->Tableau->currentRow());
         m_handler->removeObject(ui->Tableau->currentRow());
+        ui->Tableau->removeRow(ui->Tableau->currentRow());
+
     }
 
 
