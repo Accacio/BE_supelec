@@ -83,19 +83,22 @@ MainWindow::~MainWindow()
 void MainWindow::newElement()
 {
 
+    qDebug()<<ui->Tableau->currentRow();
     Persistentobject * tempObj= m_handler->newObject();
 
     if(ui->Tableau->currentRow()>=0)
     {
+        m_handler->addObject(ui->Tableau->currentRow(),tempObj);
         ui->Tableau->insertRow(ui->Tableau->currentRow());
 
-        m_handler->addObject(ui->Tableau->currentRow(),tempObj);
+
     }
     else
     {
+        m_handler->addObject(ui->Tableau->rowCount(),tempObj);
         ui->Tableau->insertRow(ui->Tableau->rowCount());
 
-        m_handler->addObject(ui->Tableau->rowCount(),tempObj);
+
     }
 
 }
