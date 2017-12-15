@@ -34,7 +34,7 @@ public:
     QString getData(PersistentAttribute * );
     QString getDataFromAttribute(PersistentAttribute * attribute);
     virtual bool attributesNoValue();
-
+    virtual void updateAttributeData(int , QString data);
 protected:
     QString *newtable_structure;
     QString *table;

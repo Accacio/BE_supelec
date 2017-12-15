@@ -24,6 +24,8 @@ public:
     bool setTypeDB();
 
 
+    void updateElement(int row,int column);
+
 private slots:
     void on_AjouterElement_clicked();
 
@@ -38,6 +40,10 @@ private slots:
     void on_actionOuvrir_triggered();
 
     void on_actionSauvegarder_sous_triggered();
+
+
+
+    void on_Tableau_cellChanged(int row, int column);
 
 private:
     Ui::MainWindow *ui;

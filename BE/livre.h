@@ -10,6 +10,7 @@ public:
 
     void addFromDatabase(QSqlQuery * );
     bool attributesNoValue();
+    void updateAttributeData(int , QString );
 
 };
 

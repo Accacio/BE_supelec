@@ -89,18 +89,53 @@ void MainWindow::newElement()
     if(ui->Tableau->currentRow()>=0)
     {
         m_handler->addObject(ui->Tableau->currentRow(),tempObj);
+        int newRow=ui->Tableau->currentRow();
         ui->Tableau->insertRow(ui->Tableau->currentRow());
+
+
+
+        for(int j=0;j<m_handler->getObjectList()->at(newRow)->getAttributes()->size();j++)
+        {
+
+            QTableWidgetItem *newItem = new QTableWidgetItem(m_handler->getObjectList()->at(newRow)->getDataFromAttribute(m_handler->getObjectList()->at(newRow)->getAttributes()->at(j)));
+            ui->Tableau->setItem(newRow,j,newItem);
+
+        }
 
 
     }
     else
     {
         m_handler->addObject(ui->Tableau->rowCount(),tempObj);
+        int newRow=ui->Tableau->rowCount();
         ui->Tableau->insertRow(ui->Tableau->rowCount());
+
+
+
+        for(int j=0;j<m_handler->getObjectList()->at(newRow)->getAttributes()->size();j++)
+        {
+
+            QTableWidgetItem *newItem = new QTableWidgetItem(m_handler->getObjectList()->at(newRow)->getDataFromAttribute(m_handler->getObjectList()->at(newRow)->getAttributes()->at(j)));
+            ui->Tableau->setItem(newRow,j,newItem);
+
+        }
 
 
     }
 
+}
+
+void MainWindow::updateElement(int row,int column)
+{
+    std::cout<<" >>>>>>>>>> MainWindow::updateElement >>>>>>>>>> "<<std::endl;
+    QTableWidgetItem * cell = ui->Tableau->item(row,column);
+    std::cout<<" cell copied "<<std::endl;
+    Persistentobject * tempObj= m_handler->getObjectList()->at(row);
+    tempObj->updateAttributeData(column,cell->text());
+    tempObj->print();
+    m_handler->updateObject(row,tempObj);
+
+    std::cout<<" <<<<<<<<<< MainWindow::updateElement <<<<<<<<<< "<<std::endl;
 }
 
 void MainWindow::removeElement()
@@ -112,8 +147,6 @@ void MainWindow::removeElement()
         ui->Tableau->removeRow(ui->Tableau->currentRow());
 
         ui->Tableau->setCurrentCell(ui->Tableau->rowCount()-1,0);
-
-
 
     }
     else
@@ -154,6 +187,17 @@ void MainWindow::on_AjouterElement_clicked()
         ui->Tableau->setHorizontalHeaderLabels(*m_handler->getObjectList()->at(0)->objectStructure);
 
         ui->Tableau->insertRow(ui->Tableau->rowCount());
+        int newRow=ui->Tableau->rowCount()-1;
+
+        for(int j=0;j<m_handler->getObjectList()->at(newRow)->getAttributes()->size();j++)
+        {
+
+            QTableWidgetItem *newItem = new QTableWidgetItem(m_handler->getObjectList()->at(newRow)->getDataFromAttribute(m_handler->getObjectList()->at(newRow)->getAttributes()->at(j)));
+            ui->Tableau->setItem(newRow,j,newItem);
+
+        }
+
+
 
     }
     else
@@ -174,9 +218,11 @@ void MainWindow::on_SupprimerElement_clicked()
 
 void MainWindow::on_Tableau_pressed(const QModelIndex &index)
 {
-    qDebug()<<ui->Tableau->currentRow();
-    m_handler->printObjects();
+    qDebug()<<QString(" Column: ")<<ui->Tableau->currentRow()<<QString(" Column: ")<<ui->Tableau->currentRow();
+
+    updateElement(ui->Tableau->currentRow(),ui->Tableau->currentColumn());
     ui->Tableau->setCurrentCell(ui->Tableau->rowCount()+2,0);
+    m_handler->printObjects();
 }
 
 
@@ -248,7 +294,9 @@ void MainWindow::on_actionNouveau_triggered()
         return;
     }
 
-
+     m_handler->clearObjects();
+    ui->Tableau->setColumnCount(0);
+    ui->Tableau->setRowCount(0);
 
     on_AjouterElement_clicked();
 
@@ -363,3 +411,10 @@ bool MainWindow::setTypeDB()
 }
 
 
+
+
+
+void MainWindow::on_Tableau_cellChanged(int row, int column)
+{
+    updateElement(row,column);
+}

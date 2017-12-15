@@ -138,3 +138,58 @@ bool Livre::attributesNoValue()
     std::cout<<" <<<<<<<<<< Livre::attributesNoValue <<<<<<<<<< "<<std::endl;
     return title||author||isbn;
 };
+
+
+void Livre::updateAttributeData(int index ,QString data)
+{
+    std::cout<<" >>>>>>>>>> Livre::updateAttributeData >>>>>>>>>> "<<std::endl;
+    qDebug()<<index<<QString(" | ")<<data;
+    QVariant::Type type;
+    QString * dataName;
+    PersistentAttribute * newAttribute;
+    switch(index)
+    {
+    case 0:
+    {
+        QString * title= new QString(data);
+        dataName= new QString("Titre");
+        type= QVariant::String;
+        newAttribute = new PersistentAttribute(dataName,type,title);
+        break;
+    }
+    case 1:
+    {
+        QString * author= new QString(data);
+        dataName= new QString("Auteur");
+        type= QVariant::String;
+        newAttribute = new PersistentAttribute(dataName,type,author);
+        break;
+    }
+    case 2:
+    {
+        qint64 * isbn=new qint64;
+        *isbn= (qint64) data.toLongLong();
+        dataName= new QString("ISBN");
+        type= QVariant::LongLong;
+        newAttribute = new PersistentAttribute(dataName,type,isbn);
+        break;
+    }
+    case 3:
+    {
+        int * year=new int;
+        *year=(int) data.toInt();
+        dataName= new QString("Annee");
+        type= QVariant::Int;
+        newAttribute = new PersistentAttribute(dataName,type,year);
+        break;
+    }
+
+    default:
+        break;
+
+    }
+    std::cout<<" Attribute Created "<<std::endl;
+    qDebug()<<getDataFromAttribute(newAttribute);
+    updateAttribute(index,newAttribute);
+    std::cout<<" <<<<<<<<<< Livre::updateAttributeData <<<<<<<<<< "<<std::endl;
+}

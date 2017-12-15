@@ -200,3 +200,8 @@ QList<PersistentAttribute *> * Persistentobject::getAttributes()
 {
     return attributes;
 }
+
+void Persistentobject::updateAttributeData(int index,QString data)
+{
+
+}
