@@ -119,8 +119,8 @@ void Handler::removeObject(int index)
 void Handler::readDatabase()
 {
     std::cout<<" >>>>>>>>>> Handler::readDatabase >>>>>>>>>> "<<std::endl;
-    //this->objects->clear();
-    std::cout<<"Objects cleared"<<std::endl;
+    this->objects->clear();
+    //std::cout<<"Objects cleared"<<std::endl;
 
 
     //Lecture BD
@@ -157,20 +157,17 @@ void Handler::readDatabase()
 //        qDebug()<<tempObj->getTable();
 
         tempObj->addFromDatabase(query);
-        std::cout<<"tempobj created from database"<<std::endl;
-        qDebug()<<tempObj->print();
+        //std::cout<<"tempobj created from database"<<std::endl;
+        //qDebug()<<tempObj->print();
 
-        std::cout<<"tempobj printed"<<std::endl;
+        //std::cout<<"tempobj printed"<<std::endl;
         this->addObject(tempObj);
 
 
 
 
         std::cout<<" !!!!!!!!! Objects after appending(outside loop)"<<std::endl;
-        for(int i=0;i<this->objects->size();i++)
-        {
-            qDebug()<<this->objects->at(i)->print();
-        }
+        printObjects();
 
 
 
@@ -191,8 +188,7 @@ void Handler::readDatabase()
         //std::cout<< query.value(0).toString().toStdString()<<QString(" | ").toStdString() <<query.value(1).toString().toStdString() << QString(" | ").toStdString() <<query.value(2).toString().toStdString() << QString(" | ").toStdString()<<query.value(3).toString().toStdString();
 
     }
-    std::cout<<"Table of tempObj in objects after delete (outside loop)"<<std::endl;
-    qDebug()<<objects->at(index-1)->getTable();
+
 
     std::cout<<"Objects (outside loop)"<<std::endl;
     for(int i=0;i<objects->size();i++)
@@ -255,5 +251,14 @@ Persistentobject * Handler::newObject()
         std::cout<<"Error! No Type defined!"<<std::endl;
     default:
         return nullptr;
+    }
+}
+
+
+void Handler::printObjects()
+{
+    for(int i=0;i<this->objects->size();i++)
+    {
+        qDebug()<<this->objects->at(i)->print();
     }
 }

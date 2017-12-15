@@ -33,6 +33,7 @@ public:
     };
     QString getData(PersistentAttribute * );
     QString getDataFromAttribute(PersistentAttribute * attribute);
+    virtual bool attributesNoValue();
 
 protected:
     QString *newtable_structure;

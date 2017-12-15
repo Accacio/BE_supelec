@@ -9,6 +9,7 @@ public:
     Livre();
 
     void addFromDatabase(QSqlQuery * );
+    bool attributesNoValue();
 
 };
 

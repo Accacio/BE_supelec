@@ -8,9 +8,9 @@ Livre::Livre() : Persistentobject("Livre")
     *newtable_structure=QString("(Titre text NOT NULL,Auteur text NOT NULL, ISBN integer NOT NULL, Annee integer NOT null)");
 
     QString * titre= new QString("Titre");
-    QString * titre_data= new QString("null");
+    QString * titre_data= new QString("");
     QString * auteur= new QString("Auteur");
-    QString * auteur_data= new QString("null");
+    QString * auteur_data= new QString("");
     QString * isbn= new QString("ISBN");
     qint64 * isbn_data=new qint64;
     *isbn_data= (qint64) 0;
@@ -32,18 +32,18 @@ Livre::Livre() : Persistentobject("Livre")
     *objectStructure<<"Titre"<<"Auteur"<<"ISBN"<<"Année";
 
 
-    delete titre;
-    delete titre_data;
-    delete auteur;
-    delete auteur_data;
-    delete isbn;
-    delete isbn_data;
-    delete annee;
-    delete annee_data;
-    delete title;
-    delete author;
-    delete Isbn ;
-    delete year;
+//    delete titre;
+//    delete titre_data;
+//    delete auteur;
+//    delete auteur_data;
+//    delete isbn;
+//    delete isbn_data;
+//    delete annee;
+//    delete annee_data;
+//    delete title;
+//    delete author;
+//    delete Isbn ;
+//    delete year;
 
     std::cout<<" <<<<<<<<<< Livre::Livre <<<<<<<<<< "<<std::endl;
 }
@@ -103,3 +103,38 @@ void Livre::addFromDatabase(QSqlQuery * query)
     std::cout<<" <<<<<<<<<< Livre::addFromDatabase <<<<<<<<<< "<<std::endl;
 }
 
+
+bool Livre::attributesNoValue()
+{
+    std::cout<<" >>>>>>>>>> Livre::attributesNoValue >>>>>>>>>> "<<std::endl;
+    bool title=true;
+    if(*(QString *)attributes->at(0)->getData()!=QString(""))
+    {
+        title=false;
+    }
+
+    bool author=true;
+
+    if(*(QString *)attributes->at(1)->getData()!=QString(""))
+    {
+        author=false;
+    }
+
+    bool isbn=true;
+
+
+    if(*(qint64 *)attributes->at(2)->getData()!=(qint64) 0)
+    {
+        isbn=false;
+    }
+//    bool year=true;
+
+//    if(*(int *)attributes->at(3)->getData()!=QString(""))
+//    {
+//        year=false;
+//    }
+
+
+    std::cout<<" <<<<<<<<<< Livre::attributesNoValue <<<<<<<<<< "<<std::endl;
+    return title||author||isbn;
+};

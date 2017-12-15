@@ -28,7 +28,7 @@ void Persistentobject::updateAttribute(int index, PersistentAttribute * attribut
 {
 //    if(attributes->at(index)->getType()!=attribute->getType())
 //    {
-//        std::cout<<"Error updating attribute, attribute is of different type!"<<std::endl;
+//        //std::cout<<"Error updating attribute, attribute is of different type!"<<std::endl;
 //    }
 
 //    else
@@ -39,41 +39,45 @@ void Persistentobject::updateAttribute(int index, PersistentAttribute * attribut
 
 int Persistentobject::save(QSqlDatabase *db)
 {
-    std::cout<<" >>>>>>>>>> Persistentobject::save >>>>>>>>>> "<<std::endl;
-    std::cout<<" Saving object:"<<std::endl;
-    qDebug()<<print();
+    //std::cout<<" >>>>>>>>>> Persistentobject::save >>>>>>>>>> "<<std::endl;
+    //std::cout<<" Saving object:"<<std::endl;
+    //qDebug()<<print();
 
     QSqlQuery query(*db);
-    std::cout<<"Query created"<<std::endl;
-//    if(attributes->isEmpty())
-//    {
-//        std::cout<<"No value in line";
-//        return 0;
-//    }
+    //std::cout<<"Query created"<<std::endl;
 
 
-    std::cout<<"Query created"<<std::endl;
-//    qDebug()<<*table;
+
+
+
+    //std::cout<<"Query created"<<std::endl;
+//    //qDebug()<<*table;
 
 //    QString create_table=QString("CREATE TABLE IF NOT EXISTS ")+*table+*newtable_structure+QString(";");
     QString create_table=QString("CREATE TABLE IF NOT EXISTS ");
-    std::cout<<"string create_table created 1/3"<<std::endl;
+    //std::cout<<"string create_table created 1/3"<<std::endl;
 
     create_table=create_table+this->getTable();
-    std::cout<<"string create_table created 2/3"<<std::endl;
+    //std::cout<<"string create_table created 2/3"<<std::endl;
     create_table=create_table+*newtable_structure+QString(";");
 
-    std::cout<<"string create_table created 3/3"<<std::endl;
+    //std::cout<<"string create_table created 3/3"<<std::endl;
 
 
     if(!query.exec(create_table))
     {
-        std::cout<<"Error creating table!"<<std::endl;
+        //std::cout<<"Error creating table!"<<std::endl;
         qDebug()<<query.lastError();
         return 0;
     }
 
-    std::cout<<"Create Table Query executed"<<std::endl;
+    //std::cout<<"Create Table Query executed"<<std::endl;
+
+    if(attributes->isEmpty()||attributesNoValue())
+    {
+        std::cout<<"No adequate value in attributes."<<std::endl;
+        return 0;
+    }
 
     QString insert_struct=QString("(");
     QString insert_data=QString("(");
@@ -103,7 +107,7 @@ int Persistentobject::save(QSqlDatabase *db)
         return 0;
     }
 
-    std::cout<<" <<<<<<<<<< Persistentobject::save <<<<<<<<<< "<<std::endl;
+    //std::cout<<" <<<<<<<<<< Persistentobject::save <<<<<<<<<< "<<std::endl;
     return 1;
 }
 
@@ -161,10 +165,16 @@ QString Persistentobject::getTable()
 
 void Persistentobject::addFromDatabase(QSqlQuery * query)
 {
-    std::cout<<" >>>>>>>>>> Persistentobject::addFromDatabase >>>>>>>>>> "<<std::endl;
-    std::cout<<" <<<<<<<<<< Persistentobject::addFromDatabase <<<<<<<<<< "<<std::endl;
+    //std::cout<<" >>>>>>>>>> Persistentobject::addFromDatabase >>>>>>>>>> "<<std::endl;
+    //std::cout<<" <<<<<<<<<< Persistentobject::addFromDatabase <<<<<<<<<< "<<std::endl;
 }
 
+bool Persistentobject::attributesNoValue()
+{
+    //std::cout<<" >>>>>>>>>> Persistentobject::attributesNoValue >>>>>>>>>> "<<std::endl;
+    //std::cout<<" <<<<<<<<<< Persistentobject::attributesNoValue <<<<<<<<<< "<<std::endl;
+    return 1;
+};
 
 QString Persistentobject::print()
 {
@@ -181,7 +191,7 @@ QString Persistentobject::print()
         }
     }
 
-    std::cout<<"PrintData:"<<std::endl;
+    //std::cout<<"PrintData:"<<std::endl;
 
     return insert_data;
 }

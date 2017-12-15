@@ -129,7 +129,7 @@ void MainWindow::removeElement()
 
 void MainWindow::on_AjouterElement_clicked()
 {
-    if(m_handler->getTypeDB()==Persistentobject::Types::noType)
+    if(m_handler->getTypeDB()==Persistentobject::Types::noType||m_handler->getObjectList()->isEmpty())
     {
         if(!setTypeDB())
         {
@@ -170,7 +170,8 @@ void MainWindow::on_SupprimerElement_clicked()
 void MainWindow::on_Tableau_pressed(const QModelIndex &index)
 {
     qDebug()<<ui->Tableau->currentRow();
-    //ui->Tableau->setCurrentCell(ui->Tableau->rowCount()+2,0);
+    m_handler->printObjects();
+    ui->Tableau->setCurrentCell(ui->Tableau->rowCount()+2,0);
 }
 
 
@@ -244,22 +245,11 @@ void MainWindow::on_actionNouveau_triggered()
 
 
 
-    if(!setTypeDB())
-    {
-        std::cout<<"No Type chosen"<<std::endl;
-        return;
-    }
-
-//    Persistentobject * tempObj= m_handler->newObject();
-//    m_handler->addObject(tempObj);
-//    updateTable();
-
-
     on_AjouterElement_clicked();
 
     m_handler->setDatabaseName(fileName);
     setWindowTitle(fileName+" - "+program_name);
-    savedatleastonce=false;
+    savedatleastonce=true;
 }
 
 void MainWindow::on_actionOuvrir_triggered()
@@ -305,6 +295,12 @@ void MainWindow::updateTable()
     ui->Tableau->setRowCount(0);
     ui->Tableau->setColumnCount(0);
     std::cout<<"Table cleared"<<std::endl;
+
+    if(m_handler->getObjectList()->isEmpty())
+    {
+       std::cout<<"No objects in list"<<std::endl;
+       return;
+    }
 
 
 
@@ -355,9 +351,6 @@ bool MainWindow::setTypeDB()
         std::cout<<"No Type chosen"<<std::endl;
         return false;
     }
-
-
-
 
 
     m_handler->setTypeDB((Persistentobject::Types )(items.indexOf(item)+1));

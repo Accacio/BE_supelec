@@ -30,6 +30,8 @@ public:
 
     QList<Persistentobject *> * getObjectList();
     QList<Persistentobject *> * objects;
+    void printObjects();
+
 
     Persistentobject * newObject();
 private:
