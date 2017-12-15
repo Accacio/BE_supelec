@@ -37,6 +37,8 @@ private slots:
 
     void on_actionOuvrir_triggered();
 
+    void on_actionSauvegarder_sous_triggered();
+
 private:
     Ui::MainWindow *ui;
     Handler * m_handler;

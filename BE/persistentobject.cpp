@@ -64,6 +64,8 @@ int Persistentobject::save(QSqlDatabase *db)
     create_table=create_table+*newtable_structure+QString(";");
 
     std::cout<<"string create_table created 3/3"<<std::endl;
+
+
     if(!query.exec(create_table))
     {
         std::cout<<"Error creating table!"<<std::endl;

@@ -8,9 +8,9 @@ Livre::Livre() : Persistentobject("Livre")
     *newtable_structure=QString("(Titre text NOT NULL,Auteur text NOT NULL, ISBN integer NOT NULL, Annee integer NOT null)");
 
     QString * titre= new QString("Titre");
-    QString * titre_data= new QString("");
+    QString * titre_data= new QString("null");
     QString * auteur= new QString("Auteur");
-    QString * auteur_data= new QString("");
+    QString * auteur_data= new QString("null");
     QString * isbn= new QString("ISBN");
     qint64 * isbn_data=new qint64;
     *isbn_data= (qint64) 0;

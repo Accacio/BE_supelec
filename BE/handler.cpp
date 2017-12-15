@@ -18,6 +18,14 @@ Handler::~Handler()
 
 void Handler::saveTable()
 {
+
+    if(objects->isEmpty())
+    {
+       std::cout<<"No Object"<<std::endl;
+       return;
+    }
+
+
     std::cout<<" >>>>>>>>>> Handler::saveTable >>>>>>>>>> "<<std::endl;
     if(!db->open())
     {
@@ -26,6 +34,19 @@ void Handler::saveTable()
     }
 
     std::cout<<"Database Opened."<<std::endl;
+
+
+    QSqlQuery query(*db);
+
+    if(!query.exec(QString("DROP TABLE IF EXISTS ")+objects->at(0)->getTable()))
+    {
+        std::cout<<"Error deleting table!"<<std::endl;
+        qDebug()<<query.lastError();
+        return;
+    }
+
+
+
 
     for (int i=0;i < objects->size();++i)
     {

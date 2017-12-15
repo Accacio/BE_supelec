@@ -82,37 +82,48 @@ MainWindow::~MainWindow()
 
 void MainWindow::newElement()
 {
+
+    Persistentobject * tempObj= m_handler->newObject();
+
     if(ui->Tableau->currentRow()>=0)
     {
-
         ui->Tableau->insertRow(ui->Tableau->currentRow());
-        Persistentobject * tempObj= m_handler->newObject();
+
         m_handler->addObject(ui->Tableau->currentRow(),tempObj);
     }
     else
     {
         ui->Tableau->insertRow(ui->Tableau->rowCount());
 
-        Persistentobject * tempObj= m_handler->newObject();
-        m_handler->addObject(tempObj);
+        m_handler->addObject(ui->Tableau->rowCount(),tempObj);
     }
-
 
 }
 
 void MainWindow::removeElement()
 {
 
-    if(ui->Tableau->currentRow()>=0)
+    if(ui->Tableau->currentRow()>0)
     {
         ui->Tableau->removeRow(ui->Tableau->currentRow());
-        ui->Tableau->setCurrentCell(ui->Tableau->rowCount()-1,0);
-    }
 
+        //ui->Tableau->setCurrentCell(ui->Tableau->rowCount()-1,0);
+        m_handler->removeObject(ui->Tableau->currentRow()-1);
+
+
+    }
     else
     {
-        ui->Tableau->removeRow(ui->Tableau->rowCount());
+        ui->Tableau->removeRow(ui->Tableau->currentRow());
+        m_handler->removeObject(ui->Tableau->currentRow());
     }
+
+
+//    else
+//    {
+//        ui->Tableau->removeRow(ui->Tableau->rowCount());
+//        m_handler->removeObject(ui->Tableau->rowCount());
+//    }
 
 }
 
@@ -128,14 +139,25 @@ void MainWindow::on_AjouterElement_clicked()
 
         Persistentobject * tempObj= m_handler->newObject();
         m_handler->addObject(tempObj);
-        updateTable();
+
+        for(int i=0;i<m_handler->getObjectList()->at(0)->objectStructure->size();i++)
+        {
+            ui->Tableau->insertColumn(i);
+        }
+        std::cout<<"Columns inserted"<<std::endl;
+
+        ui->Tableau->setHorizontalHeaderLabels(*m_handler->getObjectList()->at(0)->objectStructure);
+
+        ui->Tableau->insertRow(ui->Tableau->rowCount());
 
     }
     else
     {
         newElement();
-
     }
+
+
+
 
 
 }
@@ -147,7 +169,8 @@ void MainWindow::on_SupprimerElement_clicked()
 
 void MainWindow::on_Tableau_pressed(const QModelIndex &index)
 {
-    ui->Tableau->setCurrentCell(ui->Tableau->rowCount()+2,0);
+    qDebug()<<ui->Tableau->currentRow();
+    //ui->Tableau->setCurrentCell(ui->Tableau->rowCount()+2,0);
 }
 
 
@@ -158,11 +181,46 @@ void MainWindow::on_actionSauvegarder_triggered()
 {
     if(!savedatleastonce)
     {
-        //Ask File name
-        //    fileName = // TODO
+        QString oldFileName=fileName;
+        fileName = QFileDialog::getSaveFileName(this,QString("Nouvelle Base de Donées"),QDir::currentPath(),QString("Base de Donées (*.db)"));
+
+        if(fileName.isNull())
+        {
+            std::cout<<"No file selected"<<std::endl;
+            fileName=oldFileName;
+            return;
+        }
+
+        if(!setTypeDB())
+        {
+            std::cout<<"No Type chosen"<<std::endl;
+            return;
+        }
     }
 
+    m_handler->setDatabaseName(fileName);
+    m_handler->saveTable();
+    setWindowTitle(fileName+" - "+program_name);
+    savedatleastonce=true;
+}
 
+void MainWindow::on_actionSauvegarder_sous_triggered()
+{
+    QString oldFileName=fileName;
+    fileName = QFileDialog::getSaveFileName(this,QString("Nouvelle Base de Donées"),QDir::currentPath(),QString("Base de Donées (*.db)"));
+
+    if(fileName.isNull())
+    {
+        std::cout<<"No file selected"<<std::endl;
+        fileName=oldFileName;
+        return;
+    }
+
+    if(!setTypeDB())
+    {
+        std::cout<<"No Type chosen"<<std::endl;
+        return;
+    }
 
     m_handler->setDatabaseName(fileName);
     m_handler->saveTable();
@@ -173,10 +231,31 @@ void MainWindow::on_actionSauvegarder_triggered()
 void MainWindow::on_actionNouveau_triggered()
 {
 
-//    //Ask File name
-//    fileName = // TODO
+    QString oldFileName=fileName;
+    fileName = QFileDialog::getSaveFileName(this,QString("Nouvelle Base de Donées"),QDir::currentPath(),QString("Base de Donées (*.db)"));
 
 
+    if(fileName.isNull())
+    {
+        std::cout<<"No file selected"<<std::endl;
+        fileName=oldFileName;
+        return;
+    }
+
+
+
+    if(!setTypeDB())
+    {
+        std::cout<<"No Type chosen"<<std::endl;
+        return;
+    }
+
+//    Persistentobject * tempObj= m_handler->newObject();
+//    m_handler->addObject(tempObj);
+//    updateTable();
+
+
+    on_AjouterElement_clicked();
 
     m_handler->setDatabaseName(fileName);
     setWindowTitle(fileName+" - "+program_name);
@@ -187,11 +266,12 @@ void MainWindow::on_actionOuvrir_triggered()
 {
 //    //Ask File name
 
-
+    QString oldFileName=fileName;
     fileName = QFileDialog::getOpenFileName(this,QString("Ouvrir Base de Donées"),QDir::currentPath(),QString("Base de Donées (*.db)"));
     if(fileName.isNull())
     {
         std::cout<<"No file selected"<<std::endl;
+        fileName=oldFileName;
         return;
     }
 
@@ -283,3 +363,5 @@ bool MainWindow::setTypeDB()
     m_handler->setTypeDB((Persistentobject::Types )(items.indexOf(item)+1));
     return true;
 }
+
+
