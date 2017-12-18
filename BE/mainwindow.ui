@@ -73,28 +73,7 @@
       </spacer>
      </item>
      <item row="1" column="1">
-      <widget class="QTableWidget" name="Tableau">
-       <column>
-        <property name="text">
-         <string>Titre</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Auteurs</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>ISBN</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>Année</string>
-        </property>
-       </column>
-      </widget>
+      <widget class="QTableWidget" name="Tableau"/>
      </item>
      <item row="2" column="1">
       <spacer name="verticalSpacer_2">

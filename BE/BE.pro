@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui sql
 
 #CONFIG += console
 
@@ -29,12 +29,16 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     persistentobject.cpp \
-    persistentattribute.cpp
+    persistentattribute.cpp \
+    livre.cpp \
+    handler.cpp
 
 HEADERS += \
         mainwindow.h \
     persistentobject.h \
-    persistentattribute.h
+    persistentattribute.h \
+    livre.h \
+    handler.h
 
 FORMS += \
         mainwindow.ui
