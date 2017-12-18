@@ -2,7 +2,7 @@
 
 Livre::Livre() : Persistentobject("Livre")
 {
-    std::cout<<" >>>>>>>>>> Livre::Livre >>>>>>>>>> "<<std::endl;
+    //std::cout<<" >>>>>>>>>> Livre::Livre >>>>>>>>>> "<<std::endl;
 
 
     *newtable_structure=QString("(Titre text NOT NULL,Auteur text NOT NULL, ISBN integer NOT NULL, Annee integer NOT null)");
@@ -32,27 +32,14 @@ Livre::Livre() : Persistentobject("Livre")
     *objectStructure<<"Titre"<<"Auteur"<<"ISBN"<<"Année";
 
 
-//    delete titre;
-//    delete titre_data;
-//    delete auteur;
-//    delete auteur_data;
-//    delete isbn;
-//    delete isbn_data;
-//    delete annee;
-//    delete annee_data;
-//    delete title;
-//    delete author;
-//    delete Isbn ;
-//    delete year;
-
-    std::cout<<" <<<<<<<<<< Livre::Livre <<<<<<<<<< "<<std::endl;
+//    std::cout<<" <<<<<<<<<< Livre::Livre <<<<<<<<<< "<<std::endl;
 }
 
 void Livre::addFromDatabase(QSqlQuery * query)
 {
-    std::cout<<" >>>>>>>>>> Livre::addFromDatabase >>>>>>>>>> "<<std::endl;
-            std::cout<<"Table of tempObj"<<std::endl;
-            qDebug()<<getTable();
+    //std::cout<<" >>>>>>>>>> Livre::addFromDatabase >>>>>>>>>> "<<std::endl;
+    //std::cout<<"Table of tempObj"<<std::endl;
+    //qDebug()<<getTable();
     QString * titre= new QString("Titre");
     QString * auteur= new QString("Auteur");
     QString * isbn= new QString("ISBN");
@@ -65,12 +52,12 @@ void Livre::addFromDatabase(QSqlQuery * query)
     *isbn_data=  query->value(2).toLongLong();
     * annee_data=(int) query->value(3).toInt();
 
-    std::cout<<"Query Data:"<<std::endl;
-    qDebug()<<query->value(0).toString()<<QString(" | ")<<query->value(1).toString()<<QString(" | ")<<query->value(2).toString()<<QString(" | ")<<query->value(3).toString();
-//    std::cout<<"Query Data:"<<std::endl;
-//    qDebug()<<query->value(0).toString()<<QString(" | ")<<query->value(1).toString()<<QString(" | ")<<query->value(2).toUInt()<<QString(" | ")<<query->value(3).toString();
-    std::cout<<"Attributes Data:"<<std::endl;
-    qDebug()<<* titre_data<<QString(" | ")<<* auteur_data<<QString(" | ")<<*isbn_data<<QString(" | ")<<* annee_data;
+    //std::cout<<"Query Data:"<<std::endl;
+    //qDebug()<<query->value(0).toString()<<QString(" | ")<<query->value(1).toString()<<QString(" | ")<<query->value(2).toString()<<QString(" | ")<<query->value(3).toString();
+    //std::cout<<"Query Data:"<<std::endl;
+    //qDebug()<<query->value(0).toString()<<QString(" | ")<<query->value(1).toString()<<QString(" | ")<<query->value(2).toUInt()<<QString(" | ")<<query->value(3).toString();
+    //std::cout<<"Attributes Data:"<<std::endl;
+    //qDebug()<<* titre_data<<QString(" | ")<<* auteur_data<<QString(" | ")<<*isbn_data<<QString(" | ")<<* annee_data;
 
     PersistentAttribute * title = new PersistentAttribute(titre,QVariant::Type::String,titre_data);
     PersistentAttribute * author = new PersistentAttribute(auteur,QVariant::Type::String,auteur_data);
@@ -84,29 +71,18 @@ void Livre::addFromDatabase(QSqlQuery * query)
 
     //qDebug()<<*((QString *)attributes->at(0)->getData());
 
-    std::cout<<"Data in list:"<<std::endl;
-    qDebug()<<*(QString *)attributes->at(0)->getData()<<QString(" | ")<<*(QString *)attributes->at(1)->getData()<<QString(" | ")<<*(qint64 *)attributes->at(2)->getData()<<QString(" | ")<<*(int *)attributes->at(3)->getData();
-//    delete titre;
-//    delete titre_data;
-//    delete auteur;
-//    delete auteur_data;
-//    delete isbn;
-//    delete isbn_data;
-//    delete annee;
-//    delete annee_data;
-//    delete title;
-//    delete author;
-//    delete Isbn ;
-//    delete year;
+    //std::cout<<"Data in list:"<<std::endl;
+    //qDebug()<<*(QString *)attributes->at(0)->getData()<<QString(" | ")<<*(QString *)attributes->at(1)->getData()<<QString(" | ")<<*(qint64 *)attributes->at(2)->getData()<<QString(" | ")<<*(int *)attributes->at(3)->getData();
+
 
     //std::cout<< query.value(0).toString().toStdString()<<QString(" | ").toStdString() <<query.value(1).toString().toStdString() << QString(" | ").toStdString() <<query.value(2).toString().toStdString() << QString(" | ").toStdString()<<query.value(3).toString().toStdString();
-    std::cout<<" <<<<<<<<<< Livre::addFromDatabase <<<<<<<<<< "<<std::endl;
+    //std::cout<<" <<<<<<<<<< Livre::addFromDatabase <<<<<<<<<< "<<std::endl;
 }
 
 
 bool Livre::attributesNoValue()
 {
-    std::cout<<" >>>>>>>>>> Livre::attributesNoValue >>>>>>>>>> "<<std::endl;
+    //std::cout<<" >>>>>>>>>> Livre::attributesNoValue >>>>>>>>>> "<<std::endl;
     bool title=true;
     if(*(QString *)attributes->at(0)->getData()!=QString(""))
     {
@@ -127,6 +103,7 @@ bool Livre::attributesNoValue()
     {
         isbn=false;
     }
+
 //    bool year=true;
 
 //    if(*(int *)attributes->at(3)->getData()!=QString(""))
@@ -135,15 +112,15 @@ bool Livre::attributesNoValue()
 //    }
 
 
-    std::cout<<" <<<<<<<<<< Livre::attributesNoValue <<<<<<<<<< "<<std::endl;
+    //std::cout<<" <<<<<<<<<< Livre::attributesNoValue <<<<<<<<<< "<<std::endl;
     return title||author||isbn;
 };
 
 
 void Livre::updateAttributeData(int index ,QString data)
 {
-    std::cout<<" >>>>>>>>>> Livre::updateAttributeData >>>>>>>>>> "<<std::endl;
-    qDebug()<<index<<QString(" | ")<<data;
+    //std::cout<<" >>>>>>>>>> Livre::updateAttributeData >>>>>>>>>> "<<std::endl;
+    //qDebug()<<index<<QString(" | ")<<data;
     QVariant::Type type;
     QString * dataName;
     PersistentAttribute * newAttribute;
@@ -188,8 +165,8 @@ void Livre::updateAttributeData(int index ,QString data)
         break;
 
     }
-    std::cout<<" Attribute Created "<<std::endl;
-    qDebug()<<getDataFromAttribute(newAttribute);
+    //std::cout<<" Attribute Created "<<std::endl;
+    //qDebug()<<getDataFromAttribute(newAttribute);
     updateAttribute(index,newAttribute);
-    std::cout<<" <<<<<<<<<< Livre::updateAttributeData <<<<<<<<<< "<<std::endl;
+    //std::cout<<" <<<<<<<<<< Livre::updateAttributeData <<<<<<<<<< "<<std::endl;
 }

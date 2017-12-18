@@ -5,10 +5,10 @@
 
 Persistentobject::Persistentobject(QString className)
 {
-table= new QString(className);
-attributes = new QList<PersistentAttribute *>();
-newtable_structure = new QString("");
-objectStructure=new QStringList();
+    table= new QString(className);
+    attributes = new QList<PersistentAttribute *>();
+    newtable_structure = new QString("");
+    objectStructure=new QStringList();
 }
 
 Persistentobject::~Persistentobject()
